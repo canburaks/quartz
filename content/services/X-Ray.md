@@ -1,0 +1,47 @@
+---
+tags:
+  - x-ray
+---
+## X-Ray Features
+- X-Ray creates a map of services used by your application with trace data. 
+- You can use the trace data to drill into specific services or issues. 
+- This data provides a view of connections between services in your application and aggregated data for each service, including average #latency and failure rates.
+- Can be used to 
+	- Detect bottlenecks
+	- Visualize distributed apps
+- API
+	- `GetTraceSummaries`
+		- Get the list of trace IDs of the application.
+		- İncludes `ClientIp`
+	- `BatchGetTraces`
+		- Retrieve the list of traces.
+	- `GetGroup`
+		- Retrieves the group resource details.
+	- `GetServiceGraph`
+		- Shows which services process the incoming requests, including the downstream services that they call as a result.
+	- `PutTraceSegments`
+		- Send segment documents directly to X-Ray.
+- Segments [🔗](https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html)
+	- A segment document can be contain 
+		- A whole segment with subsegments.
+		- A fragment of a segment that indicates that a request is in progress.
+		- A single subsegment that is sent separately.
+	- Can be up to `64 kB`.
+	- A `trace segment` is a JSON representation of a request that your application serves. A trace segment records information about the original request, information about the work that your application does locally, and `subsegments` with information about downstream calls that your application makes to AWS resources, HTTP APIs, and SQL databases.
+- X-Ray Daemon
+	- Listens for traffic on `UDP` port `2000`
+	- Can be run:
+		- Locally
+		- On-premise
+		- On AWS Services
+- Annotations
+	- Key-value pairs that indexed for use with filter expressions.
+	- Use to group traces in the console when calling `GetTraceSummaries`.
+- Metadata
+	- Key-value pairs that are not indexed for use with filter expressions.
+- Error categories
+	- Error: Client errors `4xx` 
+	- Fault: Server faults `5xx`
+	- Throttle: Throttling errors `429`
+
+

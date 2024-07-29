@@ -1,0 +1,35 @@
+---
+tags:
+  - load-balancer
+  - network
+source: https://docs.aws.amazon.com/elasticloadbalancing/
+---
+## Load Balancer Features
+- Load Balancers
+	- Application Load Balancer
+		- Allows to select up to 5 #security-group .
+		- AWS assigned #ip address.
+		- Can be target [[Lambda]] in `Target Group` section.
+		- Allows `multi-value headers`.
+			- E.g. for query string `?name=foo&name=bar`
+				- It returns `‘name’: [‘foo’, ‘bar’]`
+		- Protocols
+			- ✅ `HTTP` (HyperText Transfer Protocol):
+				- Supports standard web traffic over port 80.
+				- Commonly used for serving web content, APIs, and other HTTP traffic.
+			- ✅ `HTTPS` (HyperText Transfer Protocol Secure):
+				- Supports secure web traffic over port 443 using SSL/TLS encryption.
+				- Used for secure websites, APIs, and other encrypted communications.
+			- ✅ `WebSocket`:
+				- Supports full-duplex communication channels over a single TCP connection.
+				- Useful for real-time applications such as chat applications, live data feeds, etc.
+				- Works over both HTTP and HTTPS.
+			- ❌`UDP` (User Datagram Protocol):
+				- Not supported by Application Load Balancers. UDP is typically used for low-latency and loss-tolerant connections, such as DNS, video streaming, and online gaming.
+	- Network Load Balancer
+		- AWS assigned #ip address and Elastic #ip address
+		- Protocols
+			- ✅`TCP` (Transmission Control Protocol): 
+				- NLB supports TCP traffic, making it suitable for applications that require reliable, ordered, and error-checked delivery of a stream of bytes.
+			- ✅`UDP` (User Datagram Protocol):
+				- NLB supports UDP traffic, which is ideal for applications that require low-latency, connectionless communication, such as #dns queries, video streaming, and online gaming.
