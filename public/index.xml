@@ -6,65 +6,65 @@
       <description>Last 10 notes on AWS Studey Notes</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Lambda</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/Lambda</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/Lambda</guid>
-    <description>Lambda Features Memory It scales proportinally to the CPU power. It can range from 128 MB to 10240 MB in 1 MB increments. Timeout The defaulttimeout is 3 seconds Maximumtimeout value of 900 seconds Invocation ways AWS Lambda Console API/CLI command The URL of Lambda function Auth types NONE AWS IAM Triggered by (AWS Services) DynamoDB Kinesis SQS Application Load Balancer API Gateway Alexa CloudFront S3 SNS SES CloudFormation CloudWatch CodeCommit CodePipeline Services that don’t invoke lambda functions Stream or queue-based resources DynamoDB streams SQS queues Kinesis Data Streams‬ Supported languages Node.js Java Python C# Go Execution environment lifecycles INIT INVOKE SHUTDOWN Invocation types Synchronous Invocation Can accept a payload of up to 6 MB Need a retry logic to handle intermittent errors.</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <title>STS</title>
+    <link>https://https:/canburaks.github.io/quartz/services/STS</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/STS</guid>
+    <description>STS Features API DecodeAuthorizationMessage Decodes additional information about the authorization status of a request from an encoded message returned in response to an AWS ...</description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
-    <title>X-Ray</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/X-Ray</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/X-Ray</guid>
-    <description>X-Ray Features X-Ray creates a map of services used by your application with trace data. You can use the trace data to drill into specific services or issues.</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
-  </item><item>
-    <title>CloudFormation</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/CloudFormation</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/CloudFormation</guid>
-    <description>CloudFormation Features Templates can be JSON YAML Takes template from S3 and creates an evironment Concepts Stack 🔗 Individual resources and treated as a single unit If it fails ...</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
-  </item><item>
-    <title>CodeBuild</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/CodeBuild</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/CodeBuild</guid>
-    <description></description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <title>Step Functions</title>
+    <link>https://https:/canburaks.github.io/quartz/services/Step-Functions</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/Step-Functions</guid>
+    <description>Step Function Concepts 🔗 Workflow A sequence of steps States 🔗 Individual steps in your state machine that can make decisions based on the input Perform actions from those inputs, ...</description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
     <title>Systems Manager</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/Systems-Manager</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/Systems-Manager</guid>
+    <link>https://https:/canburaks.github.io/quartz/services/Systems-Manager</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/Systems-Manager</guid>
     <description>Application Management Parameter Store Parameter policies (Only Advanced tier): Expiration Deletes the parameter at a specific date ExpirationNotification Sends an event to ...</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
-    <title>CodeDeploy</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/CodeDeploy</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/CodeDeploy</guid>
-    <description>CodeDeploy Features Uses Port 443 Lifecycle ApplicationStop BeforeInstall AfterInstall ApplicationStart ValidateService Compute platforms available: EC2 / On-premises ...</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <title>VPC</title>
+    <link>https://https:/canburaks.github.io/quartz/services/VPC</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/VPC</guid>
+    <description></description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
-    <title>Kinesis</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/Kinesis</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/Kinesis</guid>
-    <description>Kinesis Features Number of consumer instances does not exceed the number of shards. Amazon Kinesis Data Streams limits of 5 GetRecords calls per second.</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <title>X-Ray</title>
+    <link>https://https:/canburaks.github.io/quartz/services/X-Ray</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/X-Ray</guid>
+    <description>X-Ray Features X-Ray creates a map of services used by your application with trace data. You can use the trace data to drill into specific services or issues.</description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
+  </item><item>
+    <title>Load Balancer</title>
+    <link>https://https:/canburaks.github.io/quartz/services/Load-Balancer</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/Load-Balancer</guid>
+    <description>Load Balancer Features Load Balancers Application Load Balancer Allows to select up to 5security-group . AWS assignedip address. Can be target Lambda in Target Group section.</description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
+  </item><item>
+    <title>Load Balancers</title>
+    <link>https://https:/canburaks.github.io/quartz/services/Load-Balancers</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/Load-Balancers</guid>
+    <description></description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
     <title>RDS</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/RDS</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/RDS</guid>
+    <link>https://https:/canburaks.github.io/quartz/services/RDS</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/RDS</guid>
     <description>RDS Features.</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
-    <title>CloudTrail</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/CloudTrail</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/CloudTrail</guid>
-    <description>CloudTrail Features CloudTrail event history is used to recordapi calls for Governance Compliance operation Risk auditing purposes Warning CloudTrail is not a service that is ...</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <title>S3</title>
+    <link>https://https:/canburaks.github.io/quartz/services/S3</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/S3</guid>
+    <description>S3 Features Filtering objects with prefix and suffix S3 Object Lambda Enables to process data with custom code Use cases: Redact Persoanlly Identifiable Information (PII) Augment ...</description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item><item>
-    <title>Elasticache</title>
-    <link>https://https:/canburaks.github.io/quartz/aws/services/Elasticache</link>
-    <guid>https://https:/canburaks.github.io/quartz/aws/services/Elasticache</guid>
-    <description>Elasticache Features Caching strategies Cache-Aside (Lazy loading) initial overhead due to cache miss for requested data. Most common strategy: application first checks cache, cache hit: for a given parameters, then return it.</description>
-    <pubDate>Mon, 29 Jul 2024 23:21:54 GMT</pubDate>
+    <title>SAM</title>
+    <link>https://https:/canburaks.github.io/quartz/services/SAM</link>
+    <guid>https://https:/canburaks.github.io/quartz/services/SAM</guid>
+    <description>AWS SAM Features An extension of CloudFormation template. CLI commands:cli sam init Initializes a serverless application with an AWS SAM template. The template provides a folder structure for your Lambda functions The template is connected to an event source such as APIs S3 buckets DynamoDB tables.</description>
+    <pubDate>Mon, 29 Jul 2024 23:40:38 GMT</pubDate>
   </item>
     </channel>
   </rss>
