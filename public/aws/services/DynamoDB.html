@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en"><head><title>DynamoDB</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM Plex Mono&amp;family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;display=swap"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta property="og:title" content="DynamoDB"/><meta property="og:description" content="DynamoDB Features A mix of key-value and document database. The value can bestring,number,boolean,binary,list,json Provideshigh-throughput and single-digit latency By Replicates data across multipleaz Permissions are handles by IAM service."/><meta property="og:image" content="https://https://canburaks.github.io/quartz//static/og-image.png"/><meta property="og:width" content="1200"/><meta property="og:height" content="675"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="DynamoDB Features A mix of key-value and document database. The value can bestring,number,boolean,binary,list,json Provideshigh-throughput and single-digit latency By Replicates data across multipleaz Permissions are handles by IAM service."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script></head><body data-slug="aws/services/DynamoDB"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h1 class="page-title"><a href="../..">AWS Studey Notes</a></h1><div class="spacer mobile-only"></div><div class="search"><div id="search-icon"><p>Search</p><div></div><svg tabindex="0" aria-labelledby="title desc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title id="title">Search</title><desc id="desc">Search</desc><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg></div><div id="search-container"><div id="search-space"><input autocomplete="off" id="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div id="search-layout" data-preview="true"></div></div></div></div><div class="darkmode"><input class="toggle" id="darkmode-toggle" type="checkbox" tabindex="-1"/><label id="toggle-label-light" for="darkmode-toggle" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg></label><label id="toggle-label-dark" for="darkmode-toggle" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></label></div><div class="explorer desktop-only"><button type="button" id="explorer" data-behavior="collapse" data-collapsed="collapsed" data-savestate="true" data-tree="[{&quot;path&quot;:&quot;aws&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;aws/services&quot;,&quot;collapsed&quot;:true},{&quot;path&quot;:&quot;services&quot;,&quot;collapsed&quot;:true}]"><h1>Explorer</h1><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-content"><ul class="overflow" id="explorer-ul"><li><div class="folder-outer open"><ul style="padding-left:0;" class="content" data-folderul><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="aws"><button class="folder-button"><span class="folder-title">aws</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="aws"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="aws/services"><button class="folder-button"><span class="folder-title">services</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="aws/services"><li><a href="../../aws/services/API-Gateway" data-for="aws/services/API-Gateway">API Gateway</a></li><li><a href="../../aws/services/CDK" data-for="aws/services/CDK">CDK</a></li><li><a href="../../aws/services/CloudFormation" data-for="aws/services/CloudFormation">CloudFormation</a></li><li><a href="../../aws/services/CloudTrail" data-for="aws/services/CloudTrail">CloudTrail</a></li><li><a href="../../aws/services/CloudWatch" data-for="aws/services/CloudWatch">CloudWatch</a></li><li><a href="../../aws/services/CodeBuild" data-for="aws/services/CodeBuild">CodeBuild</a></li><li><a href="../../aws/services/CodeCommit" data-for="aws/services/CodeCommit">CodeCommit</a></li><li><a href="../../aws/services/CodeDeploy" data-for="aws/services/CodeDeploy">CodeDeploy</a></li><li><a href="../../aws/services/CodePipeline" data-for="aws/services/CodePipeline">CodePipeline</a></li><li><a href="../../aws/services/Cognito" data-for="aws/services/Cognito">Cognito</a></li><li><a href="../../aws/services/DynamoDB" data-for="aws/services/DynamoDB">DynamoDB</a></li><li><a href="../../aws/services/EBS" data-for="aws/services/EBS">EBS</a></li><li><a href="../../aws/services/EC2" data-for="aws/services/EC2">EC2</a></li><li><a href="../../aws/services/ECS" data-for="aws/services/ECS">ECS</a></li><li><a href="../../aws/services/EFS" data-for="aws/services/EFS">EFS</a></li><li><a href="../../aws/services/EKS" data-for="aws/services/EKS">EKS</a></li><li><a href="../../aws/services/Elasticache" data-for="aws/services/Elasticache">Elasticache</a></li><li><a href="../../aws/services/ElasticBeanstalk" data-for="aws/services/ElasticBeanstalk">ElasticBeanstalk</a></li><li><a href="../../aws/services/EventBridge" data-for="aws/services/EventBridge">EventBridge</a></li><li><a href="../../aws/services/IAM" data-for="aws/services/IAM">IAM</a></li><li><a href="../../aws/services/Kinesis" data-for="aws/services/Kinesis">Kinesis</a></li><li><a href="../../aws/services/KMS" data-for="aws/services/KMS">KMS</a></li><li><a href="../../aws/services/Lambda" data-for="aws/services/Lambda">Lambda</a></li><li><a href="../../aws/services/Load-Balancer" data-for="aws/services/Load-Balancer">Load Balancer</a></li><li><a href="../../aws/services/Load-Balancers" data-for="aws/services/Load-Balancers">Load Balancers</a></li><li><a href="../../aws/services/RDS" data-for="aws/services/RDS">RDS</a></li><li><a href="../../aws/services/S3" data-for="aws/services/S3">S3</a></li><li><a href="../../aws/services/SAM" data-for="aws/services/SAM">SAM</a></li><li><a href="../../aws/services/SNS" data-for="aws/services/SNS">SNS</a></li><li><a href="../../aws/services/SQS" data-for="aws/services/SQS">SQS</a></li><li><a href="../../aws/services/Step-Functions" data-for="aws/services/Step-Functions">Step Functions</a></li><li><a href="../../aws/services/STS" data-for="aws/services/STS">STS</a></li><li><a href="../../aws/services/Systems-Manager" data-for="aws/services/Systems-Manager">Systems Manager</a></li><li><a href="../../aws/services/VPC" data-for="aws/services/VPC">VPC</a></li><li><a href="../../aws/services/X-Ray" data-for="aws/services/X-Ray">X-Ray</a></li></ul></div></li></ul></div></li><li><div class="folder-outer "><ul style="padding-left:0;" class="content" data-folderul></ul></div></li><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div data-folderpath="services"><button class="folder-button"><span class="folder-title">services</span></button></div></div><div class="folder-outer "><ul style="padding-left:1.4rem;" class="content" data-folderul="services"><li><a href="../../services/API-Gateway" data-for="services/API-Gateway">API Gateway</a></li><li><a href="../../services/CDK" data-for="services/CDK">CDK</a></li><li><a href="../../services/CloudFormation" data-for="services/CloudFormation">CloudFormation</a></li><li><a href="../../services/CloudTrail" data-for="services/CloudTrail">CloudTrail</a></li><li><a href="../../services/CloudWatch" data-for="services/CloudWatch">CloudWatch</a></li><li><a href="../../services/CodeBuild" data-for="services/CodeBuild">CodeBuild</a></li><li><a href="../../services/CodeCommit" data-for="services/CodeCommit">CodeCommit</a></li><li><a href="../../services/CodeDeploy" data-for="services/CodeDeploy">CodeDeploy</a></li><li><a href="../../services/CodePipeline" data-for="services/CodePipeline">CodePipeline</a></li><li><a href="../../services/Cognito" data-for="services/Cognito">Cognito</a></li><li><a href="../../services/DynamoDB" data-for="services/DynamoDB">DynamoDB</a></li><li><a href="../../services/EBS" data-for="services/EBS">EBS</a></li><li><a href="../../services/EC2" data-for="services/EC2">EC2</a></li><li><a href="../../services/ECS" data-for="services/ECS">ECS</a></li><li><a href="../../services/EFS" data-for="services/EFS">EFS</a></li><li><a href="../../services/EKS" data-for="services/EKS">EKS</a></li><li><a href="../../services/Elasticache" data-for="services/Elasticache">Elasticache</a></li><li><a href="../../services/ElasticBeanstalk" data-for="services/ElasticBeanstalk">ElasticBeanstalk</a></li><li><a href="../../services/EventBridge" data-for="services/EventBridge">EventBridge</a></li><li><a href="../../services/IAM" data-for="services/IAM">IAM</a></li><li><a href="../../services/Kinesis" data-for="services/Kinesis">Kinesis</a></li><li><a href="../../services/KMS" data-for="services/KMS">KMS</a></li><li><a href="../../services/Lambda" data-for="services/Lambda">Lambda</a></li><li><a href="../../services/Load-Balancer" data-for="services/Load-Balancer">Load Balancer</a></li><li><a href="../../services/Load-Balancers" data-for="services/Load-Balancers">Load Balancers</a></li><li><a href="../../services/RDS" data-for="services/RDS">RDS</a></li><li><a href="../../services/S3" data-for="services/S3">S3</a></li><li><a href="../../services/SAM" data-for="services/SAM">SAM</a></li><li><a href="../../services/SNS" data-for="services/SNS">SNS</a></li><li><a href="../../services/SQS" data-for="services/SQS">SQS</a></li><li><a href="../../services/Step-Functions" data-for="services/Step-Functions">Step Functions</a></li><li><a href="../../services/STS" data-for="services/STS">STS</a></li><li><a href="../../services/Systems-Manager" data-for="services/Systems-Manager">Systems Manager</a></li><li><a href="../../services/VPC" data-for="services/VPC">VPC</a></li><li><a href="../../services/X-Ray" data-for="services/X-Ray">X-Ray</a></li></ul></div></li></ul></div></li><li id="explorer-end"></li></ul></div></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../aws/">aws</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../aws/services/">services</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>DynamoDB</a></div></nav><h1 class="article-title">DynamoDB</h1><p show-comma="true" class="content-meta"><span>Jul 30, 2024</span><span>10 min read</span></p><ul class="tags"><li><a href="../../tags/dynamodb" class="internal tag-link">dynamodb</a></li><li><a href="../../tags/string" class="internal tag-link">string</a></li><li><a href="../../tags/number" class="internal tag-link">number</a></li><li><a href="../../tags/boolean" class="internal tag-link">boolean</a></li><li><a href="../../tags/binary" class="internal tag-link">binary</a></li><li><a href="../../tags/list" class="internal tag-link">list</a></li><li><a href="../../tags/json" class="internal tag-link">json</a></li><li><a href="../../tags/high-throughput" class="internal tag-link">high-throughput</a></li><li><a href="../../tags/az" class="internal tag-link">az</a></li><li><a href="../../tags/java" class="internal tag-link">java</a></li><li><a href="../../tags/dotnet" class="internal tag-link">dotnet</a></li><li><a href="../../tags/version" class="internal tag-link">version</a></li></ul></div></div><article class="popover-hint"><h2 id="dynamodb-features">DynamoDB Features<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dynamodb-features" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>A mix of <code>key-value</code> and <code>document</code> database.</li>
+<li>The value can be<a href="../.././../tags/string" class="tag-link internal alias" data-slug="tags/string">string</a>,<a href="../.././../tags/number" class="tag-link internal alias" data-slug="tags/number">number</a>,<a href="../.././../tags/boolean" class="tag-link internal alias" data-slug="tags/boolean">boolean</a>,<a href="../.././../tags/binary" class="tag-link internal alias" data-slug="tags/binary">binary</a>,<a href="../.././../tags/list" class="tag-link internal alias" data-slug="tags/list">list</a>,<a href="../.././../tags/json" class="tag-link internal alias" data-slug="tags/json">json</a></li>
+<li>Provides<a href="../.././../tags/high-throughput" class="tag-link internal alias" data-slug="tags/high-throughput">high-throughput</a> and single-digit latency</li>
+<li>By Replicates data across multiple<a href="../.././../tags/az" class="tag-link internal alias" data-slug="tags/az">az</a></li>
+<li>Permissions are handles by <a href="../../IAM" class="internal" data-slug="IAM">IAM</a> service. No need to provide a db-endpoint, username or password.</li>
+<li>Core components
+<ul>
+<li>Table
+<ul>
+<li>The name must be unique for the base table it is associated with, but you can use the same name for indexes that are associated with different base tables.</li>
+</ul>
+</li>
+<li>Item</li>
+<li>Attribute</li>
+</ul>
+</li>
+<li>Optimistic locking <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.OptimisticLocking.html" class="external">🔗<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a> (<a href="../.././../tags/java" class="tag-link internal alias" data-slug="tags/java">java</a>  and<a href="../.././../tags/dotnet" class="tag-link internal alias" data-slug="tags/dotnet">dotnet</a> )
+<ul>
+<li>Optimistic locking is a strategy to ensure that the client-side item that you are updating (or deleting) is the same as the item in Amazon DynamoDB</li>
+<li>It allows only update an item if the version on the server was not changed. If another user updates it before you, just retrieve the item with a fresh<a href="../.././../tags/version" class="tag-link internal alias" data-slug="tags/version">version</a> and then trying to update it.</li>
+</ul>
+</li>
+<li>Partitions
+<ul>
+<li>Hot partitions
+<ul>
+<li>A hot partition occurs when a disproportionate amount of traffic is directed toward a single partition.</li>
+<li>Results in
+<ul>
+<li>Throttling</li>
+<li>Latency</li>
+<li>Uneven performance</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Cold partitions
+<ul>
+<li>Opposite of hot partitions.</li>
+<li>Occurs when a partition is under utilized.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="httpsdocsawsamazoncomamazondynamodblatestdeveloperguidehowitworkscorecomponentshtmlhttpsdocsawsamazoncomamazondynamodblatestdeveloperguideintroductionhtml"><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html%E2%80%AC" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html‬<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>
+<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html%E2%80%AC" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html‬<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>
+‭<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#httpsdocsawsamazoncomamazondynamodblatestdeveloperguidehowitworkscorecomponentshtmlhttpsdocsawsamazoncomamazondynamodblatestdeveloperguideintroductionhtml" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h2 id="primary-and-secondary-keys">Primary and Secondary Keys<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#primary-and-secondary-keys" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="primary-keys">Primary Keys<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#primary-keys" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Partition key
+<ul>
+<li>unique value of an item in a table</li>
+</ul>
+</li>
+<li>Composite Key (Partition Key + Sort Key)
+<ul>
+<li>Partition Key</li>
+<li>Sort key</li>
+</ul>
+</li>
+</ul>
+<h3 id="secondary-keys">Secondary Keys<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#secondary-keys" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Every secondary index is associated with exactly one table, from which it obtains its data</li>
+<li>You also define the attributes that you want to be projected, or copied, from the base table into the index. DynamoDB copies these attributes into the index, along with the primary key attributes from the base table. You can then query or scan the index just as you would query or scan a table.</li>
+<li>Types of secondary indexes
+<ul>
+<li><code>Local Secondary Index (LSI)</code>
+<ul>
+<li>A local secondary index uses the same partition key as defined on the table, but a different attribute as the sort key</li>
+<li>Can only be created during the table creation</li>
+<li>Support both eventual and strong consistency</li>
+<li>An index that has the same partition key as the base table, but a different sort key. A local secondary index is “local” in the sense that every partition of a local secondary index is scoped to a base table partition that has the same partition key value</li>
+<li>The partition key must be the same as the base table’s partition key, and the sort key must be a non-key base table attribute.</li>
+</ul>
+</li>
+<li><code>Global Secondary Index (GSI)</code>
+<ul>
+<li>Can be created and deleted any time</li>
+<li>Supports only eventual consistency</li>
+<li>A global secondary index is considered “global” because queries on the index can span all of the data in the base table, across all partitions.</li>
+<li>A global secondary index is stored in its own partition space away from the base table and scales separately from the base table. (Different provisioned throughput)</li>
+<li>Can be any scalar attribute of the base table. A sort key is optional, and it too can be any scalar attribute of the base table.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://aws.amazon.com/blogs/database/how-to-design-amazon-dynamodb-global-secondary-indexes" class="external">https://aws.amazon.com/blogs/database/how-to-design-amazon-dynamodb-global-secondary-indexes<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>
+<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>
+<a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LSI.html" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LSI.html<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+<hr/>
+<h2 id="projections">Projections<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#projections" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>When creating an LSI or GSI you set the list of attributes that you want to project or copy from the base table to the <code>secondary index</code>.</li>
+<li>The primary keys (<code>partition</code> and <code>sort</code> key) are always projected into the <code>secondary index</code>, but you can also specify non-key attributes that will be projected into the index.</li>
+<li>Three options in projecting attributes:
+<ol>
+<li>KEYS_ONLY - all items of an index will only contain the base table’s primary keys that you set.</li>
+<li>INCLUDE - allow you to choose other non-key attributes that will be included along with the primary keys of your base table.</li>
+<li>ALL - all attributes from your base table will be copied into your secondary index.</li>
+</ol>
+</li>
+</ul>
+<p><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+<h2 id="query--scan">Query &amp; Scan<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#query--scan" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>🍃 Query
+<ul>
+<li>Performs a direct look-up to specific items you want to search for based on a partition key</li>
+<li>More performant than Scan operations, e</li>
+</ul>
+</li>
+<li>🍂 Scan
+<ul>
+<li>Scan operation will literally read and return every item in a table</li>
+<li>Optionally provide a filter expression when requesting a Scan to return only a subset of items in the‬‭ table. However, the filtering occurs only after the scan is completed. In effect, you will still be charged for all‬‭ items read</li>
+</ul>
+</li>
+</ul>
+<h2 id="read--write-capacity">Read &amp; Write Capacity<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#read--write-capacity" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>Read Capacity
+<ul>
+<li>On-Demand Mode
+<ul>
+<li>DynamoDB charges you for the reads that your application performs on your tables in terms of read‬ ‭ request units</li>
+<li>1 Read Request Unit (RRU) equals
+<ul>
+<li>4KB/s strongly consistent</li>
+<li>8KB/s eventually consistent</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Provisioned Mode
+<ul>
+<li>We specify the number of reads and writes per second that you require for‬‭ your application.</li>
+<li>Can use auto-scaling to adjust your table’s provisioned capacity automatically in response‬‭ to traffic changes</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Write Capacity
+<ul>
+<li>On-Demand Mode
+<ul>
+<li>1 Write Request Unit (WRU) equals to 1 write of up to 1 KB/s</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+<hr/>
+<h2 id="dynamodb-streams">DynamoDB Streams<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dynamodb-streams" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>Captures item-level changes in a DynamoDB table in near-real-time</li>
+<li>When‬‭ an item is modified using any of the write operations (‬‭<code>PutItem</code>, <code>UpdateItem</code>, or <code>DeleteItem</code>‬‭), DynamoDB detects it as an event and sends the modified record to a transaction log.</li>
+<li>Retained for 24 hours</li>
+<li>Orders are preserved</li>
+<li>Can be used for
+<ul>
+<li>Aggregation of data for auditing</li>
+<li>Notification</li>
+</ul>
+</li>
+<li>The Stream View Type determines what kind of data you want to capture.
+<ol>
+<li><code>KEYS_ONLY</code> - only the key attributes (Partition Key + Sort Key) of the modified item are captured.</li>
+<li><code>NEW_IMAGE</code> - the latest state of the entire modified item will be captured.</li>
+<li><code>OLD_IMAGES</code> - the entire item as it appeared prior to the update is captured.</li>
+<li><code>NEW_AND_OLD_IMAGES</code> - both the latest and the previous state prior to the update is captured.</li>
+</ol>
+</li>
+</ul>
+<blockquote class="callout tip" data-callout="tip">
+<div class="callout-title">
+                  <div class="callout-icon"></div>
+                  <div class="callout-title-inner"><p>Tip</p></div>
+                  
+                </div>
+<div class="callout-content">
+<p>If you need a more complex streaming application, you might want to configure DynamoDB to send records to‬
+‭ a Kinesis Data stream.</p>
+</div>
+</blockquote>
+<ul>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+<li><a href="https://aws.amazon.com/blogs/database/dynamodb-streams-use-cases-and-design-patterns/" class="external">https://aws.amazon.com/blogs/database/dynamodb-streams-use-cases-and-design-patterns/<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+<li><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/kds.html" class="external">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/kds.html<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+</ul>
+<h2 id="dynamodb-accelerator-dax">DynamoDB Accelerator (DAX)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dynamodb-accelerator-dax" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>
+<p>In-memory cache that is purposely built for DynamoDB</p>
+</li>
+<li>
+<p>Response times in microseconds for millions of requests per second</p>
+</li>
+<li>
+<p>Doesn’t support strong consistency</p>
+</li>
+<li>
+<p>Use DAX</p>
+<ol>
+<li>You have a read-intensive application that requires response time in the microsecond range.</li>
+<li>You have a large set of data that are frequently read.</li>
+<li>Your application can eventually tolerate consistent reads.</li>
+</ol>
+</li>
+<li>
+<p>Don’t use DAX</p>
+<ol>
+<li>Your application requires strongly consistent reads.</li>
+<li>Your application performs more writes than reads.</li>
+</ol>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/dynamodb/global-tables/" class="external">https://aws.amazon.com/dynamodb/global-tables/<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+</li>
+<li>
+<p><a href="https://aws.amazon.com/blogs/database/how-to-use-amazon-dynamodb-global-tables-to-power-multiregion-architectures/" class="external">https://aws.amazon.com/blogs/database/how-to-use-amazon-dynamodb-global-tables-to-power-multiregion-architectures/<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+</li>
+</ul>
+<hr/>
+<h2 id="sdk-examples">SDK Examples<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sdk-examples" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>Request parameters:
+<ul>
+<li>“ReturnConsumedCapacity
+<ul>
+<li><code>TOTAL</code>: Total number of the capacity consumed</li>
+<li><code>INDEXES</code>: Total number of capacity consumed  with subtotals for base and secondary indexes affected table.</li>
+<li><code>NONE</code>: No return</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>PutItem</code> <a href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutItem.html#API_PutItem_RequestParameters" class="external">🔗<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+<li><code>UpdateItem</code> <a href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateItem.html" class="external">🔗<svg class="external-icon" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>
+-
+- Atomic counters
+- Not an idempotent action
+- Can bu used to track number of visitors
+- Not a solution for apps that overcounter/undercounter sensitive
+- <code>UpdateExpression</code>
+- <code>SET</code> - Adds one or more attributes and values to an item. If any of these attributes already exist, they are replaced by the new values. You can also use <code>SET</code> to add or subtract from an attribute that is of type Number. For example: <code>SET myNum = myNum + :val</code>. Supports the following functions:
+- <code>if_not_exists</code> (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.
+- <code>list_append</code> (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.
+- <code>REMOVE</code> - Removes one or more attributes from an item.
+- <code>ADD</code> - Adds the specified value to the item, if the attribute does not already exist.
+- <code>ReturnValue</code>
+- <code>NONE</code> - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)
+- <code>ALL_OLD</code> - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.
+- <code>UPDATED_OLD</code> - Returns only the updated attributes, as they appeared before the UpdateItem operation.
+- <code>ALL_NEW</code> - Returns all of the attributes of the item, as they appear after the UpdateItem operation.
+- <code>UPDATED_NEW</code> - Returns only the updated attributes, as they appear after the UpdateItem operation.</li>
+</ul>
+<h3 id="aws-reserved-words">AWS Reserved Words<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#aws-reserved-words" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="txt" data-theme="github-light github-dark"><code data-language="txt" data-theme="github-light github-dark" style="display:grid;"><span data-line> </span>
+<span data-line><span>ABORT</span></span>
+<span data-line><span>ABSOLUTE</span></span>
+<span data-line><span>ACTION</span></span>
+<span data-line><span>ADD</span></span>
+<span data-line><span>AFTER</span></span>
+<span data-line><span>AGENT</span></span>
+<span data-line><span>AGGREGATE</span></span>
+<span data-line><span>ALL</span></span>
+<span data-line><span>ALLOCATE</span></span>
+<span data-line><span>ALTER</span></span>
+<span data-line><span>ANALYZE</span></span>
+<span data-line><span>AND</span></span>
+<span data-line><span>ANY</span></span>
+<span data-line><span>ARCHIVE</span></span>
+<span data-line><span>ARE</span></span>
+<span data-line><span>ARRAY</span></span>
+<span data-line><span>AS</span></span>
+<span data-line><span>ASC</span></span>
+<span data-line><span>ASCII</span></span>
+<span data-line><span>ASENSITIVE</span></span>
+<span data-line><span>ASSERTION</span></span>
+<span data-line><span>ASYMMETRIC</span></span>
+<span data-line><span>AT</span></span>
+<span data-line><span>ATOMIC</span></span>
+<span data-line><span>ATTACH</span></span>
+<span data-line><span>ATTRIBUTE</span></span>
+<span data-line><span>AUTH</span></span>
+<span data-line><span>AUTHORIZATION</span></span>
+<span data-line><span>AUTHORIZE</span></span>
+<span data-line><span>AUTO</span></span>
+<span data-line><span>AVG</span></span>
+<span data-line><span>BACK</span></span>
+<span data-line><span>BACKUP</span></span>
+<span data-line><span>BASE</span></span>
+<span data-line><span>BATCH</span></span>
+<span data-line><span>BEFORE</span></span>
+<span data-line><span>BEGIN</span></span>
+<span data-line><span>BETWEEN</span></span>
+<span data-line><span>BIGINT</span></span>
+<span data-line><span>BINARY</span></span>
+<span data-line><span>BIT</span></span>
+<span data-line><span>BLOB</span></span>
+<span data-line><span>BLOCK</span></span>
+<span data-line><span>BOOLEAN</span></span>
+<span data-line><span>BOTH</span></span>
+<span data-line><span>BREADTH</span></span>
+<span data-line><span>BUCKET</span></span>
+<span data-line><span>BULK</span></span>
+<span data-line><span>BY</span></span>
+<span data-line><span>BYTE</span></span>
+<span data-line><span>CALL</span></span>
+<span data-line><span>CALLED</span></span>
+<span data-line><span>CALLING</span></span>
+<span data-line><span>CAPACITY</span></span>
+<span data-line><span>CASCADE</span></span>
+<span data-line><span>CASCADED</span></span>
+<span data-line><span>CASE</span></span>
+<span data-line><span>CAST</span></span>
+<span data-line><span>CATALOG</span></span>
+<span data-line><span>CHAR</span></span>
+<span data-line><span>CHARACTER</span></span>
+<span data-line><span>CHECK</span></span>
+<span data-line><span>CLASS</span></span>
+<span data-line><span>CLOB</span></span>
+<span data-line><span>CLOSE</span></span>
+<span data-line><span>CLUSTER</span></span>
+<span data-line><span>CLUSTERED</span></span>
+<span data-line><span>CLUSTERING</span></span>
+<span data-line><span>CLUSTERS</span></span>
+<span data-line><span>COALESCE</span></span>
+<span data-line><span>COLLATE</span></span>
+<span data-line><span>COLLATION</span></span>
+<span data-line><span>COLLECTION</span></span>
+<span data-line><span>COLUMN</span></span>
+<span data-line><span>COLUMNS</span></span>
+<span data-line><span>COMBINE</span></span>
+<span data-line><span>COMMENT</span></span>
+<span data-line><span>COMMIT</span></span>
+<span data-line><span>COMPACT</span></span>
+<span data-line><span>COMPILE</span></span>
+<span data-line><span>COMPRESS</span></span>
+<span data-line><span>CONDITION</span></span>
+<span data-line><span>CONFLICT</span></span>
+<span data-line><span>CONNECT</span></span>
+<span data-line><span>CONNECTION</span></span>
+<span data-line><span>CONSISTENCY</span></span>
+<span data-line><span>CONSISTENT</span></span>
+<span data-line><span>CONSTRAINT</span></span>
+<span data-line><span>CONSTRAINTS</span></span>
+<span data-line><span>CONSTRUCTOR</span></span>
+<span data-line><span>CONSUMED</span></span>
+<span data-line><span>CONTINUE</span></span>
+<span data-line><span>CONVERT</span></span>
+<span data-line><span>COPY</span></span>
+<span data-line><span>CORRESPONDING</span></span>
+<span data-line><span>COUNT</span></span>
+<span data-line><span>COUNTER</span></span>
+<span data-line><span>CREATE</span></span>
+<span data-line><span>CROSS</span></span>
+<span data-line><span>CUBE</span></span>
+<span data-line><span>CURRENT</span></span>
+<span data-line><span>CURSOR</span></span>
+<span data-line><span>CYCLE</span></span>
+<span data-line><span>DATA</span></span>
+<span data-line><span>DATABASE</span></span>
+<span data-line><span>DATE</span></span>
+<span data-line><span>DATETIME</span></span>
+<span data-line><span>DAY</span></span>
+<span data-line><span>DEALLOCATE</span></span>
+<span data-line><span>DEC</span></span>
+<span data-line><span>DECIMAL</span></span>
+<span data-line><span>DECLARE</span></span>
+<span data-line><span>DEFAULT</span></span>
+<span data-line><span>DEFERRABLE</span></span>
+<span data-line><span>DEFERRED</span></span>
+<span data-line><span>DEFINE</span></span>
+<span data-line><span>DEFINED</span></span>
+<span data-line><span>DEFINITION</span></span>
+<span data-line><span>DELETE</span></span>
+<span data-line><span>DELIMITED</span></span>
+<span data-line><span>DEPTH</span></span>
+<span data-line><span>DEREF</span></span>
+<span data-line><span>DESC</span></span>
+<span data-line><span>DESCRIBE</span></span>
+<span data-line><span>DESCRIPTOR</span></span>
+<span data-line><span>DETACH</span></span>
+<span data-line><span>DETERMINISTIC</span></span>
+<span data-line><span>DIAGNOSTICS</span></span>
+<span data-line><span>DIRECTORIES</span></span>
+<span data-line><span>DISABLE</span></span>
+<span data-line><span>DISCONNECT</span></span>
+<span data-line><span>DISTINCT</span></span>
+<span data-line><span>DISTRIBUTE</span></span>
+<span data-line><span>DO</span></span>
+<span data-line><span>DOMAIN</span></span>
+<span data-line><span>DOUBLE</span></span>
+<span data-line><span>DROP</span></span>
+<span data-line><span>DUMP</span></span>
+<span data-line><span>DURATION</span></span>
+<span data-line><span>DYNAMIC</span></span>
+<span data-line><span>EACH</span></span>
+<span data-line><span>ELEMENT</span></span>
+<span data-line><span>ELSE</span></span>
+<span data-line><span>ELSEIF</span></span>
+<span data-line><span>EMPTY</span></span>
+<span data-line><span>ENABLE</span></span>
+<span data-line><span>END</span></span>
+<span data-line><span>EQUAL</span></span>
+<span data-line><span>EQUALS</span></span>
+<span data-line><span>ERROR</span></span>
+<span data-line><span>ESCAPE</span></span>
+<span data-line><span>ESCAPED</span></span>
+<span data-line><span>EVAL</span></span>
+<span data-line><span>EVALUATE</span></span>
+<span data-line><span>EXCEEDED</span></span>
+<span data-line><span>EXCEPT</span></span>
+<span data-line><span>EXCEPTION</span></span>
+<span data-line><span>EXCEPTIONS</span></span>
+<span data-line><span>EXCLUSIVE</span></span>
+<span data-line><span>EXEC</span></span>
+<span data-line><span>EXECUTE</span></span>
+<span data-line><span>EXISTS</span></span>
+<span data-line><span>EXIT</span></span>
+<span data-line><span>EXPLAIN</span></span>
+<span data-line><span>EXPLODE</span></span>
+<span data-line><span>EXPORT</span></span>
+<span data-line><span>EXPRESSION</span></span>
+<span data-line><span>EXTENDED</span></span>
+<span data-line><span>EXTERNAL</span></span>
+<span data-line><span>EXTRACT</span></span>
+<span data-line><span>FAIL</span></span>
+<span data-line><span>FALSE</span></span>
+<span data-line><span>FAMILY</span></span>
+<span data-line><span>FETCH</span></span>
+<span data-line><span>FIELDS</span></span>
+<span data-line><span>FILE</span></span>
+<span data-line><span>FILTER</span></span>
+<span data-line><span>FILTERING</span></span>
+<span data-line><span>FINAL</span></span>
+<span data-line><span>FINISH</span></span>
+<span data-line><span>FIRST</span></span>
+<span data-line><span>FIXED</span></span>
+<span data-line><span>FLATTERN</span></span>
+<span data-line><span>FLOAT</span></span>
+<span data-line><span>FOR</span></span>
+<span data-line><span>FORCE</span></span>
+<span data-line><span>FOREIGN</span></span>
+<span data-line><span>FORMAT</span></span>
+<span data-line><span>FORWARD</span></span>
+<span data-line><span>FOUND</span></span>
+<span data-line><span>FREE</span></span>
+<span data-line><span>FROM</span></span>
+<span data-line><span>FULL</span></span>
+<span data-line><span>FUNCTION</span></span>
+<span data-line><span>FUNCTIONS</span></span>
+<span data-line><span>GENERAL</span></span>
+<span data-line><span>GENERATE</span></span>
+<span data-line><span>GET</span></span>
+<span data-line><span>GLOB</span></span>
+<span data-line><span>GLOBAL</span></span>
+<span data-line><span>GO</span></span>
+<span data-line><span>GOTO</span></span>
+<span data-line><span>GRANT</span></span>
+<span data-line><span>GREATER</span></span>
+<span data-line><span>GROUP</span></span>
+<span data-line><span>GROUPING</span></span>
+<span data-line><span>HANDLER</span></span>
+<span data-line><span>HASH</span></span>
+<span data-line><span>HAVE</span></span>
+<span data-line><span>HAVING</span></span>
+<span data-line><span>HEAP</span></span>
+<span data-line><span>HIDDEN</span></span>
+<span data-line><span>HOLD</span></span>
+<span data-line><span>HOUR</span></span>
+<span data-line><span>IDENTIFIED</span></span>
+<span data-line><span>IDENTITY</span></span>
+<span data-line><span>IF</span></span>
+<span data-line><span>IGNORE</span></span>
+<span data-line><span>IMMEDIATE</span></span>
+<span data-line><span>IMPORT</span></span>
+<span data-line><span>IN</span></span>
+<span data-line><span>INCLUDING</span></span>
+<span data-line><span>INCLUSIVE</span></span>
+<span data-line><span>INCREMENT</span></span>
+<span data-line><span>INCREMENTAL</span></span>
+<span data-line><span>INDEX</span></span>
+<span data-line><span>INDEXED</span></span>
+<span data-line><span>INDEXES</span></span>
+<span data-line><span>INDICATOR</span></span>
+<span data-line><span>INFINITE</span></span>
+<span data-line><span>INITIALLY</span></span>
+<span data-line><span>INLINE</span></span>
+<span data-line><span>INNER</span></span>
+<span data-line><span>INNTER</span></span>
+<span data-line><span>INOUT</span></span>
+<span data-line><span>INPUT</span></span>
+<span data-line><span>INSENSITIVE</span></span>
+<span data-line><span>INSERT</span></span>
+<span data-line><span>INSTEAD</span></span>
+<span data-line><span>INT</span></span>
+<span data-line><span>INTEGER</span></span>
+<span data-line><span>INTERSECT</span></span>
+<span data-line><span>INTERVAL</span></span>
+<span data-line><span>INTO</span></span>
+<span data-line><span>INVALIDATE</span></span>
+<span data-line><span>IS</span></span>
+<span data-line><span>ISOLATION</span></span>
+<span data-line><span>ITEM</span></span>
+<span data-line><span>ITEMS</span></span>
+<span data-line><span>ITERATE</span></span>
+<span data-line><span>JOIN</span></span>
+<span data-line><span>KEY</span></span>
+<span data-line><span>KEYS</span></span>
+<span data-line><span>LAG</span></span>
+<span data-line><span>LANGUAGE</span></span>
+<span data-line><span>LARGE</span></span>
+<span data-line><span>LAST</span></span>
+<span data-line><span>LATERAL</span></span>
+<span data-line><span>LEAD</span></span>
+<span data-line><span>LEADING</span></span>
+<span data-line><span>LEAVE</span></span>
+<span data-line><span>LEFT</span></span>
+<span data-line><span>LENGTH</span></span>
+<span data-line><span>LESS</span></span>
+<span data-line><span>LEVEL</span></span>
+<span data-line><span>LIKE</span></span>
+<span data-line><span>LIMIT</span></span>
+<span data-line><span>LIMITED</span></span>
+<span data-line><span>LINES</span></span>
+<span data-line><span>LIST</span></span>
+<span data-line><span>LOAD</span></span>
+<span data-line><span>LOCAL</span></span>
+<span data-line><span>LOCALTIME</span></span>
+<span data-line><span>LOCALTIMESTAMP</span></span>
+<span data-line><span>LOCATION</span></span>
+<span data-line><span>LOCATOR</span></span>
+<span data-line><span>LOCK</span></span>
+<span data-line><span>LOCKS</span></span>
+<span data-line><span>LOG</span></span>
+<span data-line><span>LOGED</span></span>
+<span data-line><span>LONG</span></span>
+<span data-line><span>LOOP</span></span>
+<span data-line><span>LOWER</span></span>
+<span data-line><span>MAP</span></span>
+<span data-line><span>MATCH</span></span>
+<span data-line><span>MATERIALIZED</span></span>
+<span data-line><span>MAX</span></span>
+<span data-line><span>MAXLEN</span></span>
+<span data-line><span>MEMBER</span></span>
+<span data-line><span>MERGE</span></span>
+<span data-line><span>METHOD</span></span>
+<span data-line><span>METRICS</span></span>
+<span data-line><span>MIN</span></span>
+<span data-line><span>MINUS</span></span>
+<span data-line><span>MINUTE</span></span>
+<span data-line><span>MISSING</span></span>
+<span data-line><span>MOD</span></span>
+<span data-line><span>MODE</span></span>
+<span data-line><span>MODIFIES</span></span>
+<span data-line><span>MODIFY</span></span>
+<span data-line><span>MODULE</span></span>
+<span data-line><span>MONTH</span></span>
+<span data-line><span>MULTI</span></span>
+<span data-line><span>MULTISET</span></span>
+<span data-line><span>NAME</span></span>
+<span data-line><span>NAMES</span></span>
+<span data-line><span>NATIONAL</span></span>
+<span data-line><span>NATURAL</span></span>
+<span data-line><span>NCHAR</span></span>
+<span data-line><span>NCLOB</span></span>
+<span data-line><span>NEW</span></span>
+<span data-line><span>NEXT</span></span>
+<span data-line><span>NO</span></span>
+<span data-line><span>NONE</span></span>
+<span data-line><span>NOT</span></span>
+<span data-line><span>NULL</span></span>
+<span data-line><span>NULLIF</span></span>
+<span data-line><span>NUMBER</span></span>
+<span data-line><span>NUMERIC</span></span>
+<span data-line><span>OBJECT</span></span>
+<span data-line><span>OF</span></span>
+<span data-line><span>OFFLINE</span></span>
+<span data-line><span>OFFSET</span></span>
+<span data-line><span>OLD</span></span>
+<span data-line><span>ON</span></span>
+<span data-line><span>ONLINE</span></span>
+<span data-line><span>ONLY</span></span>
+<span data-line><span>OPAQUE</span></span>
+<span data-line><span>OPEN</span></span>
+<span data-line><span>OPERATOR</span></span>
+<span data-line><span>OPTION</span></span>
+<span data-line><span>OR</span></span>
+<span data-line><span>ORDER</span></span>
+<span data-line><span>ORDINALITY</span></span>
+<span data-line><span>OTHER</span></span>
+<span data-line><span>OTHERS</span></span>
+<span data-line><span>OUT</span></span>
+<span data-line><span>OUTER</span></span>
+<span data-line><span>OUTPUT</span></span>
+<span data-line><span>OVER</span></span>
+<span data-line><span>OVERLAPS</span></span>
+<span data-line><span>OVERRIDE</span></span>
+<span data-line><span>OWNER</span></span>
+<span data-line><span>PAD</span></span>
+<span data-line><span>PARALLEL</span></span>
+<span data-line><span>PARAMETER</span></span>
+<span data-line><span>PARAMETERS</span></span>
+<span data-line><span>PARTIAL</span></span>
+<span data-line><span>PARTITION</span></span>
+<span data-line><span>PARTITIONED</span></span>
+<span data-line><span>PARTITIONS</span></span>
+<span data-line><span>PATH</span></span>
+<span data-line><span>PERCENT</span></span>
+<span data-line><span>PERCENTILE</span></span>
+<span data-line><span>PERMISSION</span></span>
+<span data-line><span>PERMISSIONS</span></span>
+<span data-line><span>PIPE</span></span>
+<span data-line><span>PIPELINED</span></span>
+<span data-line><span>PLAN</span></span>
+<span data-line><span>POOL</span></span>
+<span data-line><span>POSITION</span></span>
+<span data-line><span>PRECISION</span></span>
+<span data-line><span>PREPARE</span></span>
+<span data-line><span>PRESERVE</span></span>
+<span data-line><span>PRIMARY</span></span>
+<span data-line><span>PRIOR</span></span>
+<span data-line><span>PRIVATE</span></span>
+<span data-line><span>PRIVILEGES</span></span>
+<span data-line><span>PROCEDURE</span></span>
+<span data-line><span>PROCESSED</span></span>
+<span data-line><span>PROJECT</span></span>
+<span data-line><span>PROJECTION</span></span>
+<span data-line><span>PROPERTY</span></span>
+<span data-line><span>PROVISIONING</span></span>
+<span data-line><span>PUBLIC</span></span>
+<span data-line><span>PUT</span></span>
+<span data-line><span>QUERY</span></span>
+<span data-line><span>QUIT</span></span>
+<span data-line><span>QUORUM</span></span>
+<span data-line><span>RAISE</span></span>
+<span data-line><span>RANDOM</span></span>
+<span data-line><span>RANGE</span></span>
+<span data-line><span>RANK</span></span>
+<span data-line><span>RAW</span></span>
+<span data-line><span>READ</span></span>
+<span data-line><span>READS</span></span>
+<span data-line><span>REAL</span></span>
+<span data-line><span>REBUILD</span></span>
+<span data-line><span>RECORD</span></span>
+<span data-line><span>RECURSIVE</span></span>
+<span data-line><span>REDUCE</span></span>
+<span data-line><span>REF</span></span>
+<span data-line><span>REFERENCE</span></span>
+<span data-line><span>REFERENCES</span></span>
+<span data-line><span>REFERENCING</span></span>
+<span data-line><span>REGEXP</span></span>
+<span data-line><span>REGION</span></span>
+<span data-line><span>REINDEX</span></span>
+<span data-line><span>RELATIVE</span></span>
+<span data-line><span>RELEASE</span></span>
+<span data-line><span>REMAINDER</span></span>
+<span data-line><span>RENAME</span></span>
+<span data-line><span>REPEAT</span></span>
+<span data-line><span>REPLACE</span></span>
+<span data-line><span>REQUEST</span></span>
+<span data-line><span>RESET</span></span>
+<span data-line><span>RESIGNAL</span></span>
+<span data-line><span>RESOURCE</span></span>
+<span data-line><span>RESPONSE</span></span>
+<span data-line><span>RESTORE</span></span>
+<span data-line><span>RESTRICT</span></span>
+<span data-line><span>RESULT</span></span>
+<span data-line><span>RETURN</span></span>
+<span data-line><span>RETURNING</span></span>
+<span data-line><span>RETURNS</span></span>
+<span data-line><span>REVERSE</span></span>
+<span data-line><span>REVOKE</span></span>
+<span data-line><span>RIGHT</span></span>
+<span data-line><span>ROLE</span></span>
+<span data-line><span>ROLES</span></span>
+<span data-line><span>ROLLBACK</span></span>
+<span data-line><span>ROLLUP</span></span>
+<span data-line><span>ROUTINE</span></span>
+<span data-line><span>ROW</span></span>
+<span data-line><span>ROWS</span></span>
+<span data-line><span>RULE</span></span>
+<span data-line><span>RULES</span></span>
+<span data-line><span>SAMPLE</span></span>
+<span data-line><span>SATISFIES</span></span>
+<span data-line><span>SAVE</span></span>
+<span data-line><span>SAVEPOINT</span></span>
+<span data-line><span>SCAN</span></span>
+<span data-line><span>SCHEMA</span></span>
+<span data-line><span>SCOPE</span></span>
+<span data-line><span>SCROLL</span></span>
+<span data-line><span>SEARCH</span></span>
+<span data-line><span>SECOND</span></span>
+<span data-line><span>SECTION</span></span>
+<span data-line><span>SEGMENT</span></span>
+<span data-line><span>SEGMENTS</span></span>
+<span data-line><span>SELECT</span></span>
+<span data-line><span>SELF</span></span>
+<span data-line><span>SEMI</span></span>
+<span data-line><span>SENSITIVE</span></span>
+<span data-line><span>SEPARATE</span></span>
+<span data-line><span>SEQUENCE</span></span>
+<span data-line><span>SERIALIZABLE</span></span>
+<span data-line><span>SESSION</span></span>
+<span data-line><span>SET</span></span>
+<span data-line><span>SETS</span></span>
+<span data-line><span>SHARD</span></span>
+<span data-line><span>SHARE</span></span>
+<span data-line><span>SHARED</span></span>
+<span data-line><span>SHORT</span></span>
+<span data-line><span>SHOW</span></span>
+<span data-line><span>SIGNAL</span></span>
+<span data-line><span>SIMILAR</span></span>
+<span data-line><span>SIZE</span></span>
+<span data-line><span>SKEWED</span></span>
+<span data-line><span>SMALLINT</span></span>
+<span data-line><span>SNAPSHOT</span></span>
+<span data-line><span>SOME</span></span>
+<span data-line><span>SOURCE</span></span>
+<span data-line><span>SPACE</span></span>
+<span data-line><span>SPACES</span></span>
+<span data-line><span>SPARSE</span></span>
+<span data-line><span>SPECIFIC</span></span>
+<span data-line><span>SPECIFICTYPE</span></span>
+<span data-line><span>SPLIT</span></span>
+<span data-line><span>SQL</span></span>
+<span data-line><span>SQLCODE</span></span>
+<span data-line><span>SQLERROR</span></span>
+<span data-line><span>SQLEXCEPTION</span></span>
+<span data-line><span>SQLSTATE</span></span>
+<span data-line><span>SQLWARNING</span></span>
+<span data-line><span>START</span></span>
+<span data-line><span>STATE</span></span>
+<span data-line><span>STATIC</span></span>
+<span data-line><span>STATUS</span></span>
+<span data-line><span>STORAGE</span></span>
+<span data-line><span>STORE</span></span>
+<span data-line><span>STORED</span></span>
+<span data-line><span>STREAM</span></span>
+<span data-line><span>STRING</span></span>
+<span data-line><span>STRUCT</span></span>
+<span data-line><span>STYLE</span></span>
+<span data-line><span>SUB</span></span>
+<span data-line><span>SUBMULTISET</span></span>
+<span data-line><span>SUBPARTITION</span></span>
+<span data-line><span>SUBSTRING</span></span>
+<span data-line><span>SUBTYPE</span></span>
+<span data-line><span>SUM</span></span>
+<span data-line><span>SUPER</span></span>
+<span data-line><span>SYMMETRIC</span></span>
+<span data-line><span>SYNONYM</span></span>
+<span data-line><span>SYSTEM</span></span>
+<span data-line><span>TABLE</span></span>
+<span data-line><span>TABLESAMPLE</span></span>
+<span data-line><span>TEMP</span></span>
+<span data-line><span>TEMPORARY</span></span>
+<span data-line><span>TERMINATED</span></span>
+<span data-line><span>TEXT</span></span>
+<span data-line><span>THAN</span></span>
+<span data-line><span>THEN</span></span>
+<span data-line><span>THROUGHPUT</span></span>
+<span data-line><span>TIME</span></span>
+<span data-line><span>TIMESTAMP</span></span>
+<span data-line><span>TIMEZONE</span></span>
+<span data-line><span>TINYINT</span></span>
+<span data-line><span>TO</span></span>
+<span data-line><span>TOKEN</span></span>
+<span data-line><span>TOTAL</span></span>
+<span data-line><span>TOUCH</span></span>
+<span data-line><span>TRAILING</span></span>
+<span data-line><span>TRANSACTION</span></span>
+<span data-line><span>TRANSFORM</span></span>
+<span data-line><span>TRANSLATE</span></span>
+<span data-line><span>TRANSLATION</span></span>
+<span data-line><span>TREAT</span></span>
+<span data-line><span>TRIGGER</span></span>
+<span data-line><span>TRIM</span></span>
+<span data-line><span>TRUE</span></span>
+<span data-line><span>TRUNCATE</span></span>
+<span data-line><span>TTL</span></span>
+<span data-line><span>TUPLE</span></span>
+<span data-line><span>TYPE</span></span>
+<span data-line><span>UNDER</span></span>
+<span data-line><span>UNDO</span></span>
+<span data-line><span>UNION</span></span>
+<span data-line><span>UNIQUE</span></span>
+<span data-line><span>UNIT</span></span>
+<span data-line><span>UNKNOWN</span></span>
+<span data-line><span>UNLOGGED</span></span>
+<span data-line><span>UNNEST</span></span>
+<span data-line><span>UNPROCESSED</span></span>
+<span data-line><span>UNSIGNED</span></span>
+<span data-line><span>UNTIL</span></span>
+<span data-line><span>UPDATE</span></span>
+<span data-line><span>UPPER</span></span>
+<span data-line><span>URL</span></span>
+<span data-line><span>USAGE</span></span>
+<span data-line><span>USE</span></span>
+<span data-line><span>USER</span></span>
+<span data-line><span>USERS</span></span>
+<span data-line><span>USING</span></span>
+<span data-line><span>UUID</span></span>
+<span data-line><span>VACUUM</span></span>
+<span data-line><span>VALUE</span></span>
+<span data-line><span>VALUED</span></span>
+<span data-line><span>VALUES</span></span>
+<span data-line><span>VARCHAR</span></span>
+<span data-line><span>VARIABLE</span></span>
+<span data-line><span>VARIANCE</span></span>
+<span data-line><span>VARINT</span></span>
+<span data-line><span>VARYING</span></span>
+<span data-line><span>VIEW</span></span>
+<span data-line><span>VIEWS</span></span>
+<span data-line><span>VIRTUAL</span></span>
+<span data-line><span>VOID</span></span>
+<span data-line><span>WAIT</span></span>
+<span data-line><span>WHEN</span></span>
+<span data-line><span>WHENEVER</span></span>
+<span data-line><span>WHERE</span></span>
+<span data-line><span>WHILE</span></span>
+<span data-line><span>WINDOW</span></span>
+<span data-line><span>WITH</span></span>
+<span data-line><span>WITHIN</span></span>
+<span data-line><span>WITHOUT</span></span>
+<span data-line><span>WORK</span></span>
+<span data-line><span>WRAPPED</span></span>
+<span data-line><span>WRITE</span></span>
+<span data-line><span>YEAR</span></span>
+<span data-line><span>ZONE </span></span></code></pre></figure></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div id="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false}"></div><svg version="1.1" id="global-graph-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+	s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+	c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+	C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+	c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+	v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+	s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+	C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+	S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+	s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+	s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></div><div id="global-graph-outer"><div id="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" id="toc" class><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="toc-content"><ul class="overflow"><li class="depth-0"><a href="#dynamodb-features" data-for="dynamodb-features">DynamoDB Features</a></li><li class="depth-0"><a href="#httpsdocsawsamazoncomamazondynamodblatestdeveloperguidehowitworkscorecomponentshtmlhttpsdocsawsamazoncomamazondynamodblatestdeveloperguideintroductionhtml" data-for="httpsdocsawsamazoncomamazondynamodblatestdeveloperguidehowitworkscorecomponentshtmlhttpsdocsawsamazoncomamazondynamodblatestdeveloperguideintroductionhtml">https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html‬
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html‬
+‭</a></li><li class="depth-0"><a href="#primary-and-secondary-keys" data-for="primary-and-secondary-keys">Primary and Secondary Keys</a></li><li class="depth-1"><a href="#primary-keys" data-for="primary-keys">Primary Keys</a></li><li class="depth-1"><a href="#secondary-keys" data-for="secondary-keys">Secondary Keys</a></li><li class="depth-0"><a href="#projections" data-for="projections">Projections</a></li><li class="depth-0"><a href="#query--scan" data-for="query--scan">Query &amp; Scan</a></li><li class="depth-0"><a href="#read--write-capacity" data-for="read--write-capacity">Read &amp; Write Capacity</a></li><li class="depth-0"><a href="#dynamodb-streams" data-for="dynamodb-streams">DynamoDB Streams</a></li><li class="depth-0"><a href="#dynamodb-accelerator-dax" data-for="dynamodb-accelerator-dax">DynamoDB Accelerator (DAX)</a></li><li class="depth-0"><a href="#sdk-examples" data-for="sdk-examples">SDK Examples</a></li><li class="depth-1"><a href="#aws-reserved-words" data-for="aws-reserved-words">AWS Reserved Words</a></li></ul></div></div><div class="backlinks"><h3>Backlinks</h3><ul class="overflow"><li>No backlinks found</li></ul></div></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.2.4</a> © 2024</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></body><script type="application/javascript">function c(){let t=this.parentElement;t.classList.toggle("is-collapsed");let l=t.classList.contains("is-collapsed")?this.scrollHeight:t.scrollHeight;t.style.maxHeight=l+"px";let o=t,e=t.parentElement;for(;e;){if(!e.classList.contains("callout"))return;let n=e.classList.contains("is-collapsed")?e.scrollHeight:e.scrollHeight+o.scrollHeight;e.style.maxHeight=n+"px",o=e,e=e.parentElement}}function i(){let t=document.getElementsByClassName("callout is-collapsible");for(let s of t){let l=s.firstElementChild;if(l){l.addEventListener("click",c),window.addCleanup(()=>l.removeEventListener("click",c));let e=s.classList.contains("is-collapsed")?l.scrollHeight:s.scrollHeight;s.style.maxHeight=e+"px"}}}document.addEventListener("nav",i);window.addEventListener("resize",i);
+</script><script type="module">
+          let mermaidImport = undefined
+          document.addEventListener('nav', async () => {
+            if (document.querySelector("code.mermaid")) {
+              mermaidImport ||= await import('https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs')
+              const mermaid = mermaidImport.default
+              const darkMode = document.documentElement.getAttribute('saved-theme') === 'dark'
+              mermaid.initialize({
+                startOnLoad: false,
+                securityLevel: 'loose',
+                theme: darkMode ? 'dark' : 'default'
+              })
+
+              await mermaid.run({
+                querySelector: '.mermaid'
+              })
+            }
+          });
+          </script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js" type="application/javascript"></script><script type="application/javascript">
+            const socket = new WebSocket('ws://localhost:3001')
+            // reload(true) ensures resources like images and scripts are fetched again in firefox
+            socket.addEventListener('message', () => document.location.reload(true))
+          </script><script src="../../postscript.js" type="module"></script></html>
