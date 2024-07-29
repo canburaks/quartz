@@ -1,0 +1,63 @@
+---
+tags:
+  - code-pipeline
+  - ci-cd
+source: https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html
+---
+
+## CodePipeline Features
+- CodePipeline allows you to create a test stage with a test action prior to the deployment stage.
+- When an action is failed in a stage, there are two options:
+	- Stop and wait
+	- Stop and abondon
+- A pipeline of workflow is composed of stages.
+- Execution modes:
+	- 📌 `SUPERSEDED` 
+	- `QUEUED`
+	- `PARALLEL`
+- Status:
+	- `InProgress`
+	- `Stopping`
+	- `Stopped`
+	- `Succeeded`
+	- `Superseded`
+	- `Failed`
+- The flow of pipeline executions can be controlled by:
+	- A transition
+	- An approval action
+	- A failure
+- Action integrations [🔗](https://docs.aws.amazon.com/codepipeline/latest/userguide/integrations-action-type.htmll)
+	- Source action integrations
+		- Elastic Container Registry
+		- [[S3]]
+		- Connections to Bitbucket Cloud, GitHub (version 2), GitLab etc.
+		- [[CodeCommit]]
+		- GitHub (version 1)
+	- Build action integrations
+		- CodeBuild
+		- CloudBeesüJenkins
+		- TeamCity
+	- Test action integrations
+		- [[CodeBuild]]
+		- AWS Device Farm
+		- Ghost Inspector
+		- OpenText LoadRunner
+	- Deploy action integrations
+		- [[S3]] 
+		- AWS AppConfig
+		- [[CloudFormation]] and StackSets deploy actions
+		- [[ECS]]
+		- [[ElasticBeanstalk]]
+		- AWS OpsWork
+		- [[CodeDeploy]]
+		- Amazon Alexa
+		- Service Catalog
+		- XebiaLabs
+	- Approval action integration with [[SNS]]
+		- Push notifications to mobile device users
+		- Email recipients
+		- Other distributed services
+	- Invoke action integrations
+	- [[Lambda]]
+	- Snyk
+	- [[Step Functions]]

@@ -1,0 +1,177 @@
+# Study Notes for AWS Developer Associate Exam
+I thought it would be nice to publish my study notes. It is easier to publish my notes with Obsidian Publish rather than publishing on [blogging platforms](https://bloggingplatforms.com).
+
+## Notations
+- 🌝 ---> `Required`
+- 🌗 ---> `Optional` 
+- 🍂 ---> `Less Preferrable`
+- 🍃 ---> `Preferrable`
+- 1️⃣ ---> `Order Notation`
+- 📌 ---> `Default`
+- ✅ ---> `Supported / Valid`
+- ❌ ---> `Not Supported / Not Valid`
+- 🍏 --> `Pro`
+- 🍎 ---> `Con`
+
+## Exam Topics
+- [[API Gateway]]
+- [AWS CLI 🔗](https://docs.aws.amazon.com/cli/latest/)
+- CI/CD  
+	- [[CodeBuild]]
+	- [[CodeCommit]]  
+	- [[CodeDeploy]]  
+	- [[CodePipeline]]  
+- [[CloudFormation]]
+- [[CloudWatch]]
+- [[Cognito]]
+- [[DynamoDB|DynamoDB]]
+- [[EC2]]
+- [[ECS]]
+- [[EFS]]
+- [[Elasticache]]
+- [[EventBridge]]
+- [[ElasticBeanstalk]]  
+- [[IAM]]
+- [[Kinesis]]
+- [[KMS]]  
+- [[Lambda|Lambda]]
+- [[Load Balancer]]
+- [[RDS|RDS / Aurora]]
+- [[S3]]
+- [[SAM]]
+- [[SQS]]
+- [[SNS]]
+- [[Systems Manager]]
+- [[Step Functions]]
+- [[X-Ray]]
+
+## Topics
+## Storage Services
+- [[S3]]
+- [[EFS]]
+
+
+## TO IMPLEMENT
+- Load balancer with headers
+	- Lambda
+	- EC2
+- API Gateway 
+	- Cache invalidation
+	- Stages
+- Lambda
+	- State Machines
+- KMS
+	- Decrypt
+	- Encrypt
+- CodeCommit
+	- Git account
+- SNS
+	- Create an SNS topic
+
+## TODOs
+- [ ] DynamoDB
+	- [x] DynamoDB query and scans
+	- [x] Consumed Capacity & API
+	- [x] DynamoDB local and global secondary indexes
+		- [x] ~~pessimistic~~ optimistic locking
+	- [x] hot partitions
+- [x] CloudFormation stacks and test stacks
+	- [x] Inline Code 
+	- [x] Helper scripts
+		- [x] `cfn-signal`
+		- [x] `cfn-get-metadata`
+		- [x] `cfn-init`
+		- [x] `cfn-hup`
+	- [x] CLI
+		- [x] `create-stack`
+		- [x] `create-stack-set`
+		- [x] `deploy`
+		- [x] `update-stack`
+- [x] CloudWatch
+	- [x] Namespace
+	- [x] Dimension
+	- [x] Alarm 
+	- [x] Event
+- [ ] CodeCommit test
+- [ ] CodeBuild test
+- [x] CodeDeploy
+	- [x] Can deploy on-premise servers?
+	- [x] Which port it communicates?
+	- [x] AppSpec file sections
+	- [ ] AWS SDK for CodeDeploy
+		- [x] Build case
+		- [x] Deploy case
+- [x] Code Pipeline
+	- [x] Manual approval
+- [ ] X-Ray SDK
+	- [x] How to view the full traces of their application without using the X-Ray console
+	- [x] `PutTraceSegments`
+	- [x] `subsegments`
+	- [x] `annotations`
+	- [x] `tracing header`
+	- [x] `metadata`
+	- [x] Which port X-Ray utilizes?
+	- [x] which source will AWS X-Ray fetch the client IP address?
+	- [ ] IAM policies
+- [x] `MessageDeduplicationId`
+- [ ] `sam-cli`
+- [ ] Cognito
+	- [x] `Adaptive Authentication for the User Pool`
+	- [x] User pools and Identity pools
+- [ ] EC
+	- [ ] EC2 Spot Fleet
+	- [ ] How to get public and private IP addresses from the instance?
+		- [ ] `http://169.254.169.254/latest/meta-data/`
+		- [ ] `http://169.254.169.254/latest/userdata/`
+	- [ ] Auto scaling
+- [ ] ECS
+	- [ ] Live implementation
+	- [x] Task definitions
+		- [x] spread
+		- [x] random
+		- [x] binpack
+- [x] EFS
+	- [x] shared persisted data
+- [ ] EKS
+- [x] ElasticBeanstalk
+	- [x] environment config file
+	- [x] deployment types
+		- [x] immutable
+		- [x] rolling with additional batch
+		- [x] all at once
+		- [x] rolling
+	- [x] Caching
+		- [x] Lazy-loading
+		- [x] Write through
+- [ ] WAF
+- [ ] IAM
+	- [x] LDAP
+	- [ ] `--profile`
+- [x] API Gateway
+	- [x] Proxy configs:
+	- [x] HTTP_PROXY
+	- [x] AWS_PROXY
+- [x] Kinesis Shards
+	- [x] How to avoid deduplication
+	- [x] Cold / Hot shards
+- [ ] Amplify
+	- [ ] `amplifyconfiguration.json`
+	- [ ] `aws-exports.js`
+	- [ ] `amplify.yml`
+- [ ] RDS
+	- [ ] How different process uses CPU , total memory etc.?
+	- [ ] Enhanced monitoring
+- [x] Systems Manager State Manager
+	- [x] What is the purpose of this service?
+	- [x] `NoChangeNotification`
+	- [x] Difference between Secret Manager and Parameter store
+- [ ] AWS Service Catalog and AWS Config
+- [x] Systems Manager Parameter Store
+- [x] SNS
+	- [x] Fan-out pattern
+- [x] SQS
+	- [x] Batch pattern
+
+## Resources
+- [Tutorial Dojo's AWS Cheat Sheet](https://tutorialsdojo.com/aws-cheat-sheets/)
+- 

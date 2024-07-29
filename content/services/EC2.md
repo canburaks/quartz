@@ -1,0 +1,119 @@
+---
+tags:
+  - ec2
+source: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html
+---
+## EC2 Features
+- Instance
+	- Instance generations
+		- General purpose
+			- M
+			- T
+		- Compute optimized
+			- C
+		- Memory optimized
+			- R
+			- U
+			- X
+		- Storage optimized
+			- D
+			- H
+			- I
+		- Accelerated computing
+			- DL 
+			- F
+			- G
+			- Gr
+			- Inf
+			- P
+			- Trn
+			- VT
+		- High-perforance computing
+			- Hpc
+	- Instance types
+		- Can be found by:
+			- AWS Console
+			- AWS CLI
+	- Attributes
+		- Availability types [🔗](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)
+		- vCPUs or Cores
+		- Memory GiB
+		- Network performance
+		- Local instance storage
+	- Fleet Instances
+		- Available only  with
+			- EC2 API [🔗](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet.html)
+			- AWS CLI [🔗](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-fleet.html)
+			- AWS SDK [🔗](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet.html#API_CreateFleet_SeeAlso)
+			- [[CloudFormation|AWS CloudFormation]] [🔗](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-ec2fleet.html)
+		- Each fleet can be defined in only one region.
+	- Metadata
+		- 📌 The URL is `http://169.254.169.254/latest/`
+			- `dynamic`
+			- `meta-data/`
+				- `ami-id`
+				- `ami-launch-index`
+				- `ami-manifest-path`
+				- `block-device-mapping/`
+				- `hostname`
+				- `iam/`
+					- `security-credentials/`
+						- `MyEC2Role`
+							- returns short-lived credentials through [[IAM]] role
+				- `instance-action`
+				- `instance-id`
+				- `instance-type`
+				- `local-hostname`
+				- `local-ipv4`
+				- `mac`
+				- `metrics/`
+				- `network/`
+				- `placement/`
+				- `profile`
+				- `public-hostname`
+				- `public-ipv4`
+				- `public-keys/`
+				- `reservation-id`
+				- `security-groups`
+				- `services/`
+			- `ùser-data
+		- ✅ We can get [[IAM]] #role name
+		- ❌ We cannot get retrieve [[IAM]] #policy 
+- Storage
+	- Storage options
+		- [[EBS]]
+			- Multiple EBS volumes can be attached to an instance.
+			- Persists independently from the life of its associated instance.
+		- Instance store
+			- Temporary block-level storage for instances.
+			- The data on an instance store volume persists only during the life of the associated instance; if you stop, hibernate, or terminate an instance, any data on instance store volumes is lost.
+		- [[EFS]] 
+			- Not support on Windows
+			- Use an EFS file system as a common data source for workloads and applications running on multiple instances.
+		- [[S3]]
+			- EC2 uses Amazon S3 to store EBS snapshots and instance store-backed AMIs.
+		- FSx
+			- Amazon FSx is a fully-managed service that supports a wide range of workloads. You can choose between these widely-used file systems: Lustre, NetApp ONTAP, OpenZFS, and Windows File Server.
+		- Amazon File Cache
+			- Fully managed, high-speed #cache on AWS that's used to process file data, regardless of where the data is stored.
+	- Root device type
+		- `EBS`
+		- `INSTANCE-STORE`
+	- RAID (Redundant Array of Independent Disks)
+		- Virtualization technology that combines multiple disk drives into a single logical unit to improve performance, redundancy, or both.
+		- RAID Levels
+			- `RAID 0` (Striping) 
+				- Increase performance
+			- `RAID 1`(Mirroring)
+				- Provides redundancy
+			- `RAID 5` (Striping with Parity)
+				- Balances performance and redundancy
+			- `RAID 10` (RAID 1+0)
+				- Combines the benefits of `RAID 0` and `RAID 1`.
+
+## EC2 Auto Scaling [🔗](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html)
+- Helps you ensure that you have the correct number of EC2 instances available to handle the load for your application.
+- The collection of EC2 instances are called Auto Scaling Group.
+- Minimum and Maximum number of instances can be defined.
+- Multiple #az is available and evenly distributed to them.
+- If group includes spot instances, instances are automatically replaced with spot instances.
